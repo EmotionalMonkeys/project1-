@@ -1,0 +1,12 @@
+{% extends 'project1/base.html' %}
+
+{% block content %}
+      <h1>Categories</h1>
+      </br>
+      <!--<a href="{% url 'category_new' %}" 
+      class="top-menu"><span class="glyphicon
+      glyphicon-plus"></span></a>-->
+      <button onclick="location.href = '{% url 'category_new' %}'"
+      id="insertButton"
+      class="submit-button" >Insert</button>
+{% endblock %}
