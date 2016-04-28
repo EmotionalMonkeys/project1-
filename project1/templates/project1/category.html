@@ -1,12 +1,25 @@
 {% extends 'project1/base.html' %}
 
 {% block content %}
-      <h1>Categories</h1>
-      </br>
-      <!--<a href="{% url 'category_new' %}" 
-      class="top-menu"><span class="glyphicon
-      glyphicon-plus"></span></a>-->
-      <button onclick="location.href = '{% url 'category_new' %}'"
-      id="insertButton"
-      class="submit-button" >Insert</button>
+   <h1>Categories</h1>
+   </br>
+   <!--<a href="{% url 'category_new' %}" 
+   class="top-menu"><span class="glyphicon
+   glyphicon-plus"></span></a>-->
+   <button onclick="location.href = '{% url 'category_new' %}'"
+   id="insertButton"
+   class="submit-button" >Insert</button>
+   {% for category in categories %}
+      <div>
+         </br>
+         <p>Name: </p>  
+         <div>{{category.name}} </div>
+         </br>
+         <p>Description: </p> 
+         <div>{{category.description}} </div>
+         <button onclick="location.href = '{% url 'category_edit' %}'"
+   id="updateButton"
+   class="submit-button" >Update</button>
+      </div>
+   {% endfor %} 
 {% endblock %}
