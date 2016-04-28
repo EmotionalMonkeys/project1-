@@ -14,3 +14,13 @@ def category_new(request):
       form = CategoryForm()
 
    return render(request, 'project1/category_edit.html',{'form':form})
+
+def homepage(request):
+	return render(request, 'project1/homepage.html',{})
+
+
+def user(request):
+	return HttpResponse("in user")
+
+def product(request):
+	return render(request, 'project1/product.html', {})
