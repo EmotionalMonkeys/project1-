@@ -1,9 +1,9 @@
 {% extends 'project1/base.html' %}
 
 {% block content %}
-   <h1>New Category</h1>
+   <h1>New Product</h1>
    </br>
-   <form method = "POST" class="category-form">{% csrf_token %}
+   <form method = "POST" class="product-form">{% csrf_token %}
      	{{ form.as_p }}
      	<button type="submit" class="save btn btn-default">Save</button>
    </form>
