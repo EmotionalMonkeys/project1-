@@ -17,9 +17,8 @@
          </br>
          <p>Description: </p> 
          <div>{{category.description}} </div>
-         <button onclick="location.href = '{% url 'category_edit' %}'"
-   id="updateButton"
-   class="submit-button" >Update</button>
+
+         <a class="btn btn-default" href="{% url 'category_edit' pk=category.pk%}"><span class="glyphicon glyphicon-pencil"></span></a>
       </div>
    {% endfor %} 
 {% endblock %}

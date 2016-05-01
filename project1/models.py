@@ -13,7 +13,7 @@ class Users(models.Model):
         return self.first_name + self.last_name
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, primary_key=True)
+    name = models.CharField(max_length=80, null=False, unique=True)
     description = models.TextField()
     def __str__(self):
         return self.name + self.description

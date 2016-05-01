@@ -16,8 +16,8 @@ def category_new(request):
 
    return render(request, 'project1/category_edit.html',{'form':form})
 
-def category_edit(request):
-   category = get_object_or_404(Category)
+def category_edit(request,pk):
+   category = get_object_or_404(Category, pk=pk)
    if request.method == "POST": #Back with form data
       form = CategoryForm(request.POST, instance=category) 
       if form.is_valid():
