@@ -9,9 +9,11 @@ class User(models.Model):
       ('B', 'Buyer'),
    )
    role = models.CharField(max_length=1, choices=role_avail)
+   state = models.CharField(max_length=100)
+
    def __str__(self):
       return self.username
-      
+
    def isSeller(self):
       return self.role == 'S'
 

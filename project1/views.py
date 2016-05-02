@@ -7,10 +7,22 @@ def homepage(request):
    #curr_user = User.objects.filter(username = )
 	return render(request, 'project1/homepage.html',{})
 
+def signupSuccess(request):
+   return render(request, 'project1/signupSuccess.html',{})
 
 def user(request):
-	form = UserForm()
-	return HttpResponse("in user")
+   # if this is a POST request we need to process the form data
+   if request.method == 'POST':
+      # create a form instance and populate it with data from the request:
+      form = UserForm(request.POST)
+      # check whether it's valid:
+      if form.is_valid():
+         form.save()
+         return redirect('homepage')
+   else:
+      form = UserForm()
+
+   return render(request, 'project1/signup.html', {'form':form})
 
 def product(request):
 	products = Product.objects.order_by('name')
@@ -57,6 +69,10 @@ def product_delete(request,pk):
 def category(request):
    categories = Category.objects.order_by('name')
    return render(request,'project1/category.html',{'categories':categories})
+
+def categoryAccessError(request):
+   messages.error(request, 'Cannot aceess.')
+   return redirect('homepage')
 
 
 def category_new(request):

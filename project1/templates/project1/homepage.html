@@ -4,12 +4,21 @@
     <h1>Homepage</h1>
     </br>
     <div>
+        <button type="button">
+            <a href="/signup/"> Sign up</a>
+        </button>
     	<button type="button">
     		<a href="/product/"> Product</a>
     	</button>	
-        
-    	<button type="button">
-    		<a href="/category/"> Category</a>
-    	</button>	
+        {% if user.isSeller %}
+        	<button type="button">
+        		<a href="/category/"> Category</a>
+        	</button>
+        {% else %}
+            <button type="button">
+                <a href="/category/"> Category</a>
+            </button>
+        {% endif %}
+ 
     </div>
 {% endblock %}
