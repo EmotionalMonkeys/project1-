@@ -20,7 +20,7 @@ class Category(models.Model):
 
 class Product(models.Model):
    name = models.CharField(max_length=30)
-   sku = models.IntegerField(primary_key=True)
+   sku = models.IntegerField(unique=True, null=False)
    price = models.DecimalField(max_digits=10,decimal_places=2,validators=[MinValueValidator(0)])
    category = models.ForeignKey(Category)
    def __str__(self):
