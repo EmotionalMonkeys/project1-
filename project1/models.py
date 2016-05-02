@@ -16,7 +16,7 @@ class Category(models.Model):
     name = models.CharField(max_length=80, null=False, unique=True)
     description = models.TextField()
     def __str__(self):
-        return self.name + self.description
+        return self.name
 
 class Product(models.Model):
    name = models.CharField(max_length=30)
