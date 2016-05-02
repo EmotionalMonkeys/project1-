@@ -11,20 +11,32 @@ class User(models.Model):
    role = models.CharField(max_length=1, choices=role_avail)
    def __str__(self):
       return self.username
+      
+   def isSeller(self):
+      return self.role == 'S'
 
 class Category(models.Model):
     name = models.CharField(max_length=80, null=False, unique=True)
     description = models.TextField()
     def __str__(self):
-        return self.name + self.description
+        return self.name
+
+    def canDelete(self):
+      product = Product.objects.all()
+      for p in product:
+        if p.category_id == self.id:
+         return False
+
+      return True
 
 class Product(models.Model):
    name = models.CharField(max_length=30)
-   sku = models.UUIDField(primary_key=True)
+   sku = models.IntegerField(unique=True, null=False)
    price = models.DecimalField(max_digits=10,decimal_places=2,validators=[MinValueValidator(0)])
    category = models.ForeignKey(Category)
    def __str__(self):
-      return self.name + self.sku
+      return self.name
+      # + str(self.sku)
 
 
 class Order_shopping(models.Model):

@@ -1,11 +1,41 @@
 {% extends 'project1/base.html' %}
 
 {% block content %}
-    <h1>Product Page</h1>
-    </br>
-    <div>
-    	<button type="button">
-    		<a href="/">Home Page</a>
-    	</button>
-    </div>
+
+   <h1>Product</h1>
+   </br>
+   <button type=onclick id="insertButton" class="submit-button">
+      <a href="{%url 'product_new' %}">Insert</a>
+   </button>
+
+   {% for product in products %}
+      <div>
+      </br>
+      <p>Name: </p>  
+         <div>{{product.name}}</div>
+      </br>
+      <p>Sku: </p> 
+         <div>{{product.sku}} </div>
+      </br>
+      <p>Price: </p>
+         <div> $ {{product.price}} </div>
+      </br>
+      <p>Category: </p>
+         <div>{{product.category}}</div>
+
+
+      
+
+      <button type=onclick id="updateButton" class="submit-button">
+         <a href="{%url 'product_edit' pk=product.pk %}">Update</a>
+      </button>
+
+      <button type=onclick id="deleteButton" class="submit-button">
+         <a href="{%url 'product_delete' pk=product.pk %}">Delete</a>
+      </button>
+      <p>-----------------------------------------------</p>
+      </div>
+    
+   {% endfor %} 
+
 {% endblock %}
