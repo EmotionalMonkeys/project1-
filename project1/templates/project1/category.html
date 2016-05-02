@@ -3,7 +3,11 @@
 {% block content %}
 
    <h1>Categories</h1>
+   <button type="button">
+         <a href="/product/"> Product</a>
+   </button>   
    </br>
+
    <button onclick="location.href='{%url 'category_new' %}'"
            id="insertButton"
            class="submit-button">Insert</button>
@@ -16,7 +20,14 @@
          </br>
          <p>Description: </p> 
          <div>{{category.description}} </div>
-         <a class="btn btn-default" href="{% url 'category_edit' pk=category.pk%}"><span class="glyphicon glyphicon-pencil"></span></a>
+         <button onclick="location.href='{%url 'category_edit' pk=category.pk%}'"
+           id="updateButton"
+           class="submit-button">Update</button>
+         <button onclick="location.href='{%url 'category_delete' pk=category.pk%}'"
+           id="deleteButton"
+           class="submit-button">Delete</button>
+
+         <!--<a class="btn btn-default" href="{% url 'category_edit' pk=category.pk%}"><span class="glyphicon glyphicon-pencil"></span></a>-->
 
       </div>
     
