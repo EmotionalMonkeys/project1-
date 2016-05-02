@@ -42,4 +42,9 @@ def category_edit(request,pk):
       form = CategoryForm(instance=category)
 
    return render(request, 'project1/category_edit.html',{'form':form})
+
+
+def product_browse(request):
+   products = Product.objects.order_by('sku')
+   return render(request, 'project1/product_browse.html', {'products':products})
    

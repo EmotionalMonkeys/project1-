@@ -1,0 +1,27 @@
+{% extends 'project1/base.html' %}
+
+{% block content %} 
+    <h1>Product Browse Page</h1>
+    </br>
+    <div>
+    	<button type="button">
+    		<a href="/">Home Page</a>
+    	</button>
+    </div>
+    <div>
+    	<form class="search" method="post" action="index.html" >
+		 <input type="text" name="q" placeholder="Search..." />
+		 <ul class="results" >
+			<li><a href="index.html">Search Result #1<br /><span>Description...</span></a></li>
+			<li><a href="index.html">Search Result #2<br /><span>Description...</span></a></li>
+	 		<li><a href="index.html">Search Result #3<br /><span>Description...</span></a></li>
+         	<li><a href="index.html">Search Result #4</a></li>
+		 </ul>
+	 </form>
+    </div>
+    <div>
+    	{% for product in products %}
+	    	{{ products }}
+    	{% endfor %}
+    </div>
+{% endblock %}
