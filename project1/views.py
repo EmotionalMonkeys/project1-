@@ -16,6 +16,7 @@ def product(request):
 
 def category(request):
    categories = Category.objects.order_by('name')
+   product = Product.objects.all()
    return render(request,'project1/category.html',{'categories':categories})
 
 def category_new(request):
