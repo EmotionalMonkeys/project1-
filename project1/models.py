@@ -13,14 +13,14 @@ class User(models.Model):
       return self.username
 
 class Category(models.Model):
-   name = models.CharField(max_length=100, primary_key=True)
-   description = models.TextField()
-   def __str__(self):
-      return self.name + self.description
+    name = models.CharField(max_length=80, null=False, unique=True)
+    description = models.TextField()
+    def __str__(self):
+        return self.name + self.description
 
 class Product(models.Model):
    name = models.CharField(max_length=30)
-   sku = models.UUIDField(primary_key=True)
+   sku = models.IntegerField(primary_key=True)
    price = models.DecimalField(max_digits=10,decimal_places=2,validators=[MinValueValidator(0)])
    category = models.ForeignKey(Category)
    def __str__(self):

@@ -18,13 +18,18 @@
          <div>{{product.sku}} </div>
       </br>
       <p>Price: </p>
-         <div>{{product.price}} </div>
+         <div> $ {{product.price}} </div>
       </br>
       <p>Category: </p>
          <div>{{product.category}}</div>
+
+
+      
+
       <button type=onclick id="updateButton" class="submit-button">
-         <a href="{%url 'product_edit' %}">Submit</a>
+         <a href="{%url 'product_edit' pk=product.pk %}">Update</a>
       </button>
+      <p>-----------------------------------------------</p>
       </div>
     
    {% endfor %} 

@@ -31,6 +31,21 @@ def product_new(request):
 
    return render(request, 'project1/product_edit.html', {'form':form})
 
+def product_edit(request,pk):
+   product = get_object_or_404(Product, pk=pk)
+
+   if request.method == "POST": #Back with form data
+      form = ProductForm(request.POST, instance=product) 
+      if form.is_valid():
+         form.save()
+         return redirect('product')
+
+   else: #Access page 1st time => blank form
+      form = ProductForm(instance=product)
+
+   return render(request, 'project1/product_edit.html',{'form':form})
+   
+
 
 def category(request):
    categories = Category.objects.order_by('name')
@@ -45,14 +60,15 @@ def category_new(request):
    else: #Access page 1st time => blank form
    	form = CategoryForm()
 
-   return render(request,'project1/category.html',{'categories':categories})
+   return render(request,'project1/category_edit.html',{'form':form})
 
       #return render(request, 'project1/product_edit.html', {'form':form})
       #return render(request, 'project1/category_edit.html',{'form':form})
 
 
-def category_edit(request):
-   category = get_object_or_404(Category)
+def category_edit(request,pk):
+   category = get_object_or_404(Category, pk=pk)
+
    if request.method == "POST": #Back with form data
       form = CategoryForm(request.POST, instance=category) 
       if form.is_valid():
