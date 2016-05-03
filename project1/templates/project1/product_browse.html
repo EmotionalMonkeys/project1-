@@ -27,6 +27,13 @@
     {% for category in categories %}
             <h4 id='<%{{category.name}}%>'>{{category.name}}</h4>
             <table style="width:550px">
+            <tr>
+                <td>Name</td>
+                <td>sku</td>
+                <td>Price</td>
+                <td>Category</td>
+                <td>Add to Cart</td>
+            </tr>
             {% for product in products %}
             {% if product.category == category %}
                 <tr>
@@ -34,6 +41,7 @@
                     <td>{{product.sku}}</td>
                     <td>${{product.price}}</td>
                     <td>{{product.category}}</td>
+                    <td><button type="button"><a href="\product_order">Order</a></button></td>
                 </tr>
             {% endif %}
             {% endfor %}
