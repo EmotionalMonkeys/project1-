@@ -22,6 +22,7 @@ urlpatterns = [
   	url(r'^category/delete/(?P<pk>\d+)/$', views.category_delete, name='category_delete'),
   	
   	url(r'^product_browse/$', views.product_browse, name='product_browse'),
+  	url(r'^product_browse/(?P<pk>\d+)/$', views.product_browse, name='product_browse'),
 ]
 
  #url(r'^signup/sucess/$', views.signupSucess, name='signupSucess'),
