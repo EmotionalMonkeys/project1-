@@ -6,7 +6,7 @@ urlpatterns = [
 	url(r'^$', views.homepage, name='homepage'),
    url(r'^signup/$', views.user, name='signup'),
 	url(r'^product/$', views.product, name='product'),
-	url(r'^product/(?P<pk>\d+)/$', views.product_cat, name='product_cat'),
+	url(r'^product/(?P<pk>\d+)/$', views.product, name='product'),
 
 	url(r'^product/new/$', views.product_new, name='product_new'),
 	url(r'^product/edit/(?P<pk>\d+)/$', views.product_edit, name='product_edit'),
