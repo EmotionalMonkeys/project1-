@@ -9,7 +9,7 @@
          <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
             <form action="/product/search/" method="get">
                Search bar:<br>
-               <input class="search" type="text" placeholder="What are you looking for?" name="item">
+               <input class="search" type="text" placeholder="What are you looking for?" name="item" value={{searchItem}}>
                <br>
                <input type="hidden" type="text" name="curCat" value={{curCat}} >
                <input type="submit" value="Search">

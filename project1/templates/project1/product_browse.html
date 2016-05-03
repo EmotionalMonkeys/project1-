@@ -1,6 +1,23 @@
-{% extends 'project1/base.html' %}
+{% load staticfiles %}
+<html>
+   <head>
+      <title>Emotional Monkeys</title> 
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      <link rel="stylesheet"href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+      <link rel="stylesheet" href="{% static 'css/product_browse.css' %}"> 
+     
+      <link rel="stylesheet" href="{% static 'css/project1.css' %}"> 
 
-{% block content %} 
+   </head>
+
+   <body> 
+      <div class = "page-header">
+         <h1><button type="button"><a href="/">Emotional Monkeys</a></button></h1>
+         <img src="http://ichef-1.bbci.co.uk/news/660/cpsprodpb/025B/production/_85730600_monkey2.jpg" alt="Logo" style="width:150px;height:150px">
+      </div>
+      <div class = "content-container">
+         <div class = "row">
+            <div class = "col-md-8">
     <h1 id="top">Product Browse Page</h1>
     </br>
     <div>
@@ -9,23 +26,22 @@
     	</button>
     </div>
     <div>
-    	<form class="search" method="post" action="index.html" >
-		 <input type="text" name="q" placeholder="Search..." />
+    	<form class="search" method="post" action="{%url 'product_browse'  %}" >
+		 <input type="text" id="q" placeholder="Search..." />
 	    </form>
     </div>
         <div>
             <h3>Categories:</h3>
+            <a href="{%url 'product_browse' %}">All</a>
             {% for category in categories %}
             <ul>
-                <a href='#<%{{category.name}}%>'>{{category.name}}</a>
+                <a href="{%url 'product_browse' pk=category.pk %}">{{category.name}}</a>
             </ul>
             {% endfor %}
             <h3 id="product_tables"></h3>
         </div>
 
     <div>
-    {% for category in categories %}
-            <h4 id='<%{{category.name}}%>'>{{category.name}}</h4>
             <table style="width:550px">
             <tr>
                 <td>Name</td>
@@ -35,7 +51,6 @@
                 <td>Add to Cart</td>
             </tr>
             {% for product in products %}
-            {% if product.category == category %}
                 <tr>
                     <td>{{product.name}}</td>
                     <td>{{product.sku}}</td>
@@ -43,9 +58,11 @@
                     <td>{{product.category}}</td>
                     <td><button type="button"><a href="\product_order">Order</a></button></td>
                 </tr>
-            {% endif %}
             {% endfor %}
-            <a href="#top">Back to Top</a>
             </table>
-    {% endfor %}
-{% endblock %}
+            
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
