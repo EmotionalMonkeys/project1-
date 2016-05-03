@@ -4,12 +4,25 @@ from .models import User,Product,Order_shopping,Category
 from django.contrib import messages
 
 def homepage(request):
+   #curr_user = User.objects.filter(username = )
 	return render(request, 'project1/homepage.html',{})
 
+def signupSuccess(request):
+   return render(request, 'project1/signupSuccess.html',{})
 
 def user(request):
-	form = UserForm()
-	return HttpResponse("in user")
+   # if this is a POST request we need to process the form data
+   if request.method == 'POST':
+      # create a form instance and populate it with data from the request:
+      form = UserForm(request.POST)
+      # check whether it's valid:
+      if form.is_valid():
+         form.save()
+         return redirect('homepage')
+   else:
+      form = UserForm()
+
+   return render(request, 'project1/signup.html', {'form':form})
 
 def product(request):
 	products = Product.objects.order_by('name')
@@ -57,6 +70,11 @@ def category(request):
    categories = Category.objects.order_by('name')
    return render(request,'project1/category.html',{'categories':categories})
 
+def categoryAccessError(request):
+   messages.error(request, 'Cannot aceess.')
+   return redirect('homepage')
+
+
 def category_new(request):
    if request.method == "POST": #Back with form data
    	form = CategoryForm(request.POST) 
@@ -67,10 +85,6 @@ def category_new(request):
    	form = CategoryForm()
 
    return render(request,'project1/category_edit.html',{'form':form})
-
-      #return render(request, 'project1/product_edit.html', {'form':form})
-      #return render(request, 'project1/category_edit.html',{'form':form})
-
 
 def category_edit(request,pk):
    category = get_object_or_404(Category, pk=pk)
