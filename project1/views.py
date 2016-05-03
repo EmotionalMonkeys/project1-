@@ -24,15 +24,28 @@ def user(request):
 
    return render(request, 'project1/signup.html', {'form':form})
 
-def product(request,pk=None):
+def product(request, pk=None, curCat='All'):
    if pk != None:
       selectedCategory = get_object_or_404(Category, pk=pk)
+      curCat = selectedCategory.name
       products = Product.objects.filter(category_id=selectedCategory)
    else:
       products = Product.objects.order_by('name')
    allCategories = Category.objects.order_by('name')
-   return render(request, 'project1/product.html', {'products':products,'allCategories':allCategories})
+   return render(request, 'project1/product.html', 
+                 {'products':products,'allCategories':allCategories, 'curCat':curCat})
 
+def product_search(request):
+   searchItem = request.GET['item']
+   curCat = request.GET['curCat']
+   selCat = Category.objects.filter(name=curCat)
+   if curCat != 'All':
+      products = Product.objects.filter(name__contains=searchItem).filter(category=selCat)
+   else:
+      products = Product.objects.filter(name__contains=searchItem)
+   allCategories = Category.objects.order_by('name')
+   return render(request, 'project1/product.html', 
+                 {'products':products,'allCategories':allCategories , 'curCat':curCat})
 
 def product_new(request):
 	# if this is a POST request we need to process the form data
