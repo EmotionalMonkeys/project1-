@@ -11,17 +11,33 @@
     <div>
     	<form class="search" method="post" action="index.html" >
 		 <input type="text" name="q" placeholder="Search..." />
-		 <ul class="results" >
-			<li><a href="index.html">Search Result #1<br /><span>Description...</span></a></li>
-			<li><a href="index.html">Search Result #2<br /><span>Description...</span></a></li>
-	 		<li><a href="index.html">Search Result #3<br /><span>Description...</span></a></li>
-         	<li><a href="index.html">Search Result #4</a></li>
-		 </ul>
-	 </form>
+	    </form>
     </div>
+        <div>
+            <h3>Categories:</h3>
+            {% for category in categories %}
+            <ul>
+                <a href='#<%{{category.name}}%>'>{{category.name}}</a>
+            </ul>
+            {% endfor %}
+        </div>
     <div>
-    	{% for product in products %}
-	    	{{ products }}
-    	{% endfor %}
-    </div>
+    <h3>Products:</h3>
+    {% for category in categories %}
+            <h4>{{category.name}}</h4>
+            <table id='<%{{category.name}}%>' style="width:550px">
+            {% for product in products %}
+            {% with category.name|add:category.description as category_check %}
+            {% if product == category_check %}
+                <tr>
+                    <td>{{product.name}}</td>
+                    <td>{{product.sku}}</td>
+                    <td>${{product.price}}</td>
+                    <td>{{product.category}}</td>
+                </tr>
+            {% endif %}
+            {% endwith %}
+            {% endfor %}
+            </table>
+    {% endfor %}
 {% endblock %}

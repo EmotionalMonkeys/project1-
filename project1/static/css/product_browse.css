@@ -183,3 +183,28 @@ input {
 }
 
 .lt-ie9 .search input { line-height: 26px }
+
+
+
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    margin: 5px;
+    padding: 15px;
+}
+
+div{
+    margin: 20px;
+}
+
+table{
+    margin: 10pc;
+    padding: 10px;
+}
+
+ul {
+    display: inline;
+}

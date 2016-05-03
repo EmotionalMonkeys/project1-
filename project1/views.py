@@ -94,5 +94,6 @@ def category_delete(request,pk):
 
 def product_browse(request):
    products = Product.objects.order_by('name')
-   return render(request, 'project1/product_browse.html', {'products':products})
+   categories = Category.objects.order_by('name')
+   return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
    
