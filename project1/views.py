@@ -24,9 +24,15 @@ def user(request):
 
    return render(request, 'project1/signup.html', {'form':form})
 
-def product(request):
-	products = Product.objects.order_by('name')
-	return render(request, 'project1/product.html', {'products':products})
+def product(request,pk=None):
+   if pk != None:
+      selectedCategory = get_object_or_404(Category, pk=pk)
+      products = Product.objects.filter(category_id=selectedCategory)
+   else:
+      products = Product.objects.order_by('name')
+   allCategories = Category.objects.order_by('name')
+   return render(request, 'project1/product.html', {'products':products,'allCategories':allCategories})
+
 
 def product_new(request):
 	# if this is a POST request we need to process the form data
