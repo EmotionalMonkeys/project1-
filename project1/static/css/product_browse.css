@@ -201,10 +201,22 @@ div{
 }
 
 table{
-    margin: 10pc;
+    margin-bottom: 30pc;
+    margin-top: 30px;
     padding: 10px;
 }
 
 ul {
     display: inline;
+}
+
+h4 {
+    padding: 10px;
+}
+
+#product_tables{
+    margin-top: 40px;
+    padding-top: 20pc;
+    padding-bottom: 40px;
+    margin-bottom: 50px;
 }

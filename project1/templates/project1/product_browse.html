@@ -1,7 +1,7 @@
 {% extends 'project1/base.html' %}
 
 {% block content %} 
-    <h1>Product Browse Page</h1>
+    <h1 id="top">Product Browse Page</h1>
     </br>
     <div>
     	<button type="button">
@@ -20,15 +20,15 @@
                 <a href='#<%{{category.name}}%>'>{{category.name}}</a>
             </ul>
             {% endfor %}
+            <h3 id="product_tables"></h3>
         </div>
+
     <div>
-    <h3>Products:</h3>
     {% for category in categories %}
-            <h4>{{category.name}}</h4>
-            <table id='<%{{category.name}}%>' style="width:550px">
+            <h4 id='<%{{category.name}}%>'>{{category.name}}</h4>
+            <table style="width:550px">
             {% for product in products %}
-            {% with category.name|add:category.description as category_check %}
-            {% if product == category_check %}
+            {% if product.category == category %}
                 <tr>
                     <td>{{product.name}}</td>
                     <td>{{product.sku}}</td>
@@ -36,8 +36,8 @@
                     <td>{{product.category}}</td>
                 </tr>
             {% endif %}
-            {% endwith %}
             {% endfor %}
+            <a href="#top">Back to Top</a>
             </table>
     {% endfor %}
 {% endblock %}
