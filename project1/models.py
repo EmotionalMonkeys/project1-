@@ -92,7 +92,7 @@ class Product(models.Model):
    category = models.ForeignKey(Category)
    def __str__(self):
       return self.name
-      # + str(self.sku)
+   
 
 
 class Order_shopping(models.Model):

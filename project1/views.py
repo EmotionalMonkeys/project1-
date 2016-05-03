@@ -42,23 +42,37 @@ def signup(request):
 
    return render(request, 'project1/signup.html', {'form':form})
 
-def product(request,pk=None):
+def product(request,pk=None, curCat='All'):
    user = EMUser.objects.get(username=request.user.username)
    if request.user.is_authenticated():
       if user.role == 'owner':
          if pk != None:
             selectedCategory = get_object_or_404(Category, pk=pk)
+            curCat = selectedCategory.name
             products = Product.objects.filter(category_id=selectedCategory)
          else:
             products = Product.objects.order_by('name')
          allCategories = Category.objects.order_by('name')
+
          return render(request, 'project1/product.html', 
-            {'products':products,'allCategories':allCategories})
+            {'products':products,'allCategories':allCategories,'curCat':curCat})
       else:
          return render(request,'project1/homepage.html',
             {'error':"This page is available to owners only"})
    else:
       return render(request,'project1/homepage.html',{'error':"No user logged in"})
+
+def product_search(request):
+   searchItem = request.GET['item']
+   curCat = request.GET['curCat']
+   selCat = Category.objects.filter(name=curCat)
+   if curCat != 'All':
+      products = Product.objects.filter(name__contains=searchItem).filter(category=selCat)
+   else:
+      products = Product.objects.filter(name__contains=searchItem)
+   allCategories = Category.objects.order_by('name')
+   return render(request, 'project1/product.html', 
+                 {'products':products,'allCategories':allCategories , 'curCat':curCat, 'searchItem':searchItem})
 
 def product_new(request):
 	# if this is a POST request we need to process the form data
@@ -140,9 +154,21 @@ def category_edit(request,pk):
 
    return render(request, 'project1/category_edit.html',{'form':form})
 
+
 def category_delete(request,pk):
    Category.objects.get(pk=pk).delete()
    messages.success(request, "Successfully deleted")
    return redirect('category')
 
+def product_browse(request, pk=None, pk2=None):
+   if pk != None:
+      selectedCategory = get_object_or_404(Category, pk=pk)
+      products = Product.objects.filter(category_id=selectedCategory)
+   elif pk2 != None:
+      selectedProduct = get_object_or_404(Product, pk2 = pk2)
+      products = Product.objects.filter(product_id=selectedProduct)
+   else:
+      products = Product.objects.order_by('name')
+   categories = Category.objects.order_by('name')
+   return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
    
