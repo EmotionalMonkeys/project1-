@@ -2,20 +2,20 @@ from django.db import models
 from django.core.validators import MinValueValidator
 # User 
 class User(models.Model):
-   username = models.CharField(max_length=50,primary_key=True)
+   username = models.CharField(max_length=50,unique = True, primary_key=True)
    age = models.IntegerField(validators=[MinValueValidator(0)])
    role_avail = (
-      ('S', 'Seller'),
-      ('B', 'Buyer'),
+      ('owner', 'Owner'),
+      ('customer', 'Customer'),
    )
-   role = models.CharField(max_length=1, choices=role_avail)
+   role = models.CharField(max_length=10, choices=role_avail)
    state = models.CharField(max_length=100)
 
    def __str__(self):
       return self.username
 
-   def isSeller(self):
-      return self.role == 'S'
+   def isOwner(self):
+      return self.role == 'O'
 
 class Category(models.Model):
     name = models.CharField(max_length=80, null=False, unique=True)
