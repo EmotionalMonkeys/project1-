@@ -119,9 +119,14 @@ def category_edit(request,pk):
 
    return render(request, 'project1/category_edit.html',{'form':form})
 
+
 def category_delete(request,pk):
    Category.objects.get(pk=pk).delete()
    messages.success(request, "Successfully deleted")
    return redirect('category')
 
+def product_browse(request):
+   products = Product.objects.order_by('name')
+   categories = Category.objects.order_by('name')
+   return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
    
