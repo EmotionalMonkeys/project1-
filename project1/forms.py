@@ -10,7 +10,7 @@ class CategoryForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
 	class Meta:
 		model = User
-		fields = ('username','age','role')
+		fields = ('username','age','role', 'state')
 
 class ProductForm(forms.ModelForm):
 	class Meta:
