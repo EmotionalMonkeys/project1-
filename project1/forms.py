@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import User,Category,Product,Order_shopping
+from .models import EMUser,Category,Product,Order_shopping
 
 class CategoryForm(forms.ModelForm):   
 	class Meta:
@@ -9,11 +9,12 @@ class CategoryForm(forms.ModelForm):
 		
 class UserForm(forms.ModelForm):
 	class Meta:
-		model = User
+		model = EMUser
 		fields = ('username','age','role', 'state')
 
 class ProductForm(forms.ModelForm):
 	class Meta:
 		model = Product
 		fields = ('name', 'sku', 'price', 'category')
+
 
