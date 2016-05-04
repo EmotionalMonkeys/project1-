@@ -2,17 +2,20 @@
 <html>
    <head>
       <title>Emotional Monkeys</title> 
-      
       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
       <link rel="stylesheet"href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-   <link rel="stylesheet" href="{% static 'css/project1.css' %}"> 
-   {% block extra_head %}{% endblock %}
+
+      <link rel="stylesheet" href="{% static 'css/project1.css' %}"> 
+      {% block extra_head %}{% endblock %}
    </head>
 
    <body> 
       <div class = "page-header">
          <h1><button type="button"><a href="/">Emotional Monkeys</a></button></h1>
          <img src="http://ichef-1.bbci.co.uk/news/660/cpsprodpb/025B/production/_85730600_monkey2.jpg" alt="Logo" style="width:150px;height:150px">
+         {% if user.is_authenticated %} 
+            <h2>Hi {{user}}</h2>
+         {% endif %}
       </div>
       <div class = "content-container">
          <div class = "row">

@@ -1,11 +1,16 @@
 {% extends 'project1/base.html' %}
 
 {% block content %}
+    
     <h1>Homepage</h1>
     </br>
     <div>
+        <p>{{error}}</p>
         <button type="button">
             <a href="/signup/"> Sign up</a>
+        </button>
+        <button type="button">
+            <a href="/login/"> Login</a>
         </button>
     	<button type="button">
     		<a href="/product/"> Product</a>
@@ -14,14 +19,9 @@
             <a href="/product_browse/"> Product Browse</a>
         </button>
     	</button>	
-        {% if user.isSeller %}
-        	<button type="button">
-        		<a href="/category/"> Category</a>
-        	</button>
-        {% else %}
-            <button type="button">
-                <a href="/category/"> Category</a>
-            </button>
-        {% endif %}
+        <button type="button">
+        	<a href="/category/"> Category</a>
+        </button>
+       
     </div>
 {% endblock %}
