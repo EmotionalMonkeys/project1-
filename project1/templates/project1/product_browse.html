@@ -16,8 +16,9 @@
          <img src="http://ichef-1.bbci.co.uk/news/660/cpsprodpb/025B/production/_85730600_monkey2.jpg" alt="Logo" style="width:150px;height:150px">
       </div>
       {% if user.is_authenticated %} 
-            <h2>Hi {{user}}</h2>
+        <h2>Hi {{user}}</h2>
       {% endif %}
+
       <div class = "content-container">
          <div class = "row">
             <div class = "col-md-8">
@@ -28,9 +29,6 @@
     	<button type="button">
     		<a href="/">Home Page</a>
     	</button>
-        <button type="button">
-            <a href="/shopping_cart/"> Shopping Cart</a>
-        </button>
     </div>
     <div>
     	<form action="{%url 'product_browse' %}" method="get">

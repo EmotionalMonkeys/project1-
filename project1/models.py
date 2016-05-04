@@ -68,6 +68,10 @@ class EMUser(models.Model):
    def __str__(self):
       return self.username
 
+   def isOwner(self):
+      return self.role == 'owner'
+
+
 class Category(models.Model):
    name = models.CharField(max_length=80, null=False, unique=True)
    description = models.TextField()
