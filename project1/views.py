@@ -3,7 +3,7 @@ from .forms import CategoryForm,UserForm,ProductForm, ProductQuantityForm
 from .models import EMUser,Product,Order_shopping,Category
 from django.contrib import messages, auth
 from django.http import HttpResponseRedirect
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 from django.forms import modelformset_factory
 
@@ -207,16 +207,26 @@ def product_order(request, pk=None):
    return render(request, 'project1/product_order.html', 
       {'name':name, 'price':price, 'form':form})
 
+
 def shopping_cart(request):
 
-   productInCart = Order_shopping.objects.filter(is_bought=False).filter(customer=request.user.username)
-   skuToName = []
-   quantityToPrice = [] 
-   for product in productInCart: 
-      quantityToPrice.append(zip(product,skuToName.append(Product.objects.get(sku=product.oSku))))
-   return render(request, 'project1/shopping_cart.html', {'quantityToPrice':quantityToPrice})
+   productInCart = Order_shopping.objects.filter(customer=request.user.username).filter(is_bought=False)
+   name = []
+   quantity = []
+   price = [] 
+   final = []
+   for itemQuantity in productInCart: 
+      name.append(Product.objects.get(sku=itemQuantity.oSku.sku).name)
+      price.append(Product.objects.get(sku=itemQuantity.oSku.sku).price)
+      quantity.append(itemQuantity.quantity)
+   final = zip(name,price,quantity)
+   finalAmount = 0
+   for k in final: 
+      finalAmount += k[2] * k[1]
+
+   return render(request, 'project1/shopping_cart.html', {'final':final, 'finalAmount':finalAmount})
+
 
 def confirmation(request):
    return render(request, 'project1/confirmation.html', {})
 
-   

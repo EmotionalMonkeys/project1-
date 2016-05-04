@@ -66,7 +66,7 @@ class EMUser(models.Model):
    state = models.CharField(max_length=2, choices=state_avail)
 
    def __str__(self):
-      return self.username
+      return '%s' % self.username
 
    def isOwner(self):
       return self.role == 'owner'
@@ -91,7 +91,7 @@ class Product(models.Model):
    price = models.DecimalField(max_digits=10,decimal_places=2,validators=[MinValueValidator(0)])
    category = models.ForeignKey(Category)
    def __str__(self):
-      return self.name
+      return 'name: %s sku: %s' % (self.name, self.sku)
    
 
 
@@ -101,7 +101,7 @@ class Order_shopping(models.Model):
    quantity = models.IntegerField(validators=[MinValueValidator(0)])
    is_bought = models.BooleanField(default=False)
    def __str__(self):
-      return self.customer + self.oSku 
+      return '%s %s %s' % (self.oSku.name, self.oSku.sku,self.quantity)
 
 
 
