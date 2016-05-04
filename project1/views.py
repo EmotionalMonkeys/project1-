@@ -21,7 +21,7 @@ def auth_view(request):
    user = auth.authenticate(username=username, password = '')
    if user is not None and user.is_active:
       auth.login(request,user)
-      return render(request, 'project1/homepage.html',{'user':request.user.username})
+      return render(request, 'project1/homepage.html',{})
    else:
       return render(request, 'project1/login.html',
          {'message1':"The provided name ", 'user':username, 'message2':" is not known."})
@@ -231,6 +231,25 @@ def shopping_cart(request):
    else:
       return render(request,'project1/homepage.html',{'error':"No user logged in"})
 
-def confirmation(request,pk):
-   return render(request, 'project1/confirmation.html', {})
+
+def confirmation(request):  
+   purchased = Order_shopping.objects.filter(customer=request.user.username).filter(is_bought=False)
+   name = []
+   quantity = []
+   price = [] 
+   final = []
+   for item in purchased:
+      item.is_bought = True
+      item.bought()
+      item.save()
+      name.append(Product.objects.get(sku=item.oSku.sku).name)
+      price.append(Product.objects.get(sku=item.oSku.sku).price)
+      quantity.append(item.quantity)
+   final = zip(name,price,quantity)
+   finalAmount = 0
+   for k in final: 
+      finalAmount += k[2] * k[1]
+
+   return render(request, 'project1/confirmation.html', {'final':final, 'finalAmount':finalAmount})
+
 

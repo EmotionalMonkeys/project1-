@@ -4,4 +4,30 @@
     <h1>Confirmation</h1>
     </br>
 
+	{% for k in final %}
+   <li>
+      <div>
+         <p>Name: </p> 
+            <div>{{k.0}} </div>
+         </br>
+         <p>Price: </p>
+            <div>{{k.1}}</div>
+         </br>
+         <p>Quantity </p>
+            <div>{{k.2}} </div>
+         </br>
+      </li>
+   </li>
+   <hr>
+   {% endfor %} 
+   </div>
+      <p> Total Amount Paid </p>
+         <div>$ {{finalAmount}} 
+   </div>
+   <div>
+    	<button type="button">
+    		<a href="/product_browse">Back to Browse</a>
+    	</button>
+    </div>
+
 {% endblock %}
