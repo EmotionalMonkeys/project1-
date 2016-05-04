@@ -27,11 +27,13 @@ urlpatterns = [
   url(r'^product_browse/$', views.product_browse, name='product_browse'),
   url(r'^product_browse/(?P<pk>\d+)/$', views.product_browse, name='product_browse'),
 
+
   url(r'^product_order/(?P<pk>\d+)/$', views.product_order, name='product_order'),
+
+  url(r'^shopping_cart/$', views.shopping_cart, name='shopping_cart'),
 
   #url(r'^shopping_cart/$', views.shopping_cart, name='shopping_cart')
 
   #url(r'^signup/sucess/$', views.signupSucess, name='signupSucess'),
 ]
 
- 

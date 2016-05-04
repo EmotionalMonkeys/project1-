@@ -172,6 +172,7 @@ def product_browse(request, pk=None):
    categories = Category.objects.order_by('name')
    return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
 
+
 def product_browse_search(request):
    searchItem = request.GET['item']
    curCat = request.GET['curCat']
@@ -221,4 +222,14 @@ def product_order_edit(request,pk):
       form = OrderShoppingForm(instance=category)
 
    return render(request, 'project1/product_order_edit.html',{'form':form})
+
+def shopping_cart(request):
+   productInCart = Order_shopping.objects.filter(is_bought=False).filter(customer=request.user.username)
+   skuToName = []
+   quantityToPrice = [] 
+   for product in productInCart: 
+      quantityToPrice.append(zip(product,skuToName.append(Product.objects.get(sku=product.oSku))))
+   return render(request, 'project1/shopping_cart.html', {'quantityToPrice':quantityToPrice})
+
+   #{'productInCart':productInCart,'skuToName':skuToName})
    
