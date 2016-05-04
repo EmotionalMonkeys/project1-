@@ -121,7 +121,6 @@ def category(request):
       user = EMUser.objects.get(username=request.user.username)
    except EMUser.DoesNotExist:
       user = None
-
    if request.user.is_authenticated():
       if user.role == 'owner':
          categories = Category.objects.order_by('name')
@@ -196,6 +195,7 @@ def product_order(request, pk=None):
    if request.method == "POST": #Back with form data
       form = ProductQuantityForm(request.POST) 
       instance = form.save(commit=False)
+      
       instance.customer=user
       instance.oSku=product
       instance.is_bought=False
