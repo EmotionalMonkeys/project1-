@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
-from .forms import CategoryForm,UserForm,ProductForm
+from .forms import CategoryForm,UserForm,ProductForm,OrderShoppingForm
 from .models import EMUser,Product,Order_shopping,Category
 from django.contrib import messages, auth
 from django.http import HttpResponseRedirect
@@ -192,25 +192,15 @@ def product_order(request, pk=None):
    if pk != None:
       selectedProduct = get_object_or_404(Product, pk = pk)
       #products = Product.objects.filter(selectedProduct)
-      return render(request, 'project1/product_order.html', {'selectedProduct':selectedProduct})
+      return render(request, 'project1/product_order_edit.html', {'selectedProduct':selectedProduct})
    else:
       products = Product.objects.order_by('name')
       categories = Category.objects.order_by('name')
       return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
 
-def order_new(request):
-   if request.method == "POST": #Back with form data
-      form = OrderShoppingForm(request.POST) 
-      if form.is_valid():
-         form.save()
-         return redirect('product_browse')
-   else: #Access page 1st time => blank form
-      form = OrderShoppingForm()
-
-   return render(request,'project1/product_order_edit.html',{'form':form})
 
 def product_order_edit(request,pk):
-   order = get_object_or_404(Order_shopping, pk=pk)
+   order = get_object_or_404(Product, pk=pk)
 
    if request.method == "POST": #Back with form data
       form = OrderShoppingForm(request.POST, instance=order) 
@@ -219,7 +209,7 @@ def product_order_edit(request,pk):
          return redirect('product_browse')
 
    else: #Access page 1st time => blank form
-      form = OrderShoppingForm(instance=category)
+      form = OrderShoppingForm(instance=order)
 
    return render(request, 'project1/product_order_edit.html',{'form':form})
 

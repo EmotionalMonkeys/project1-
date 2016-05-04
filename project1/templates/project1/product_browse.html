@@ -47,7 +47,7 @@
                     <td>{{product.sku}}</td>
                     <td>${{product.price}}</td>
                     <td>{{product.category}}</td>
-                    <td><button type="button"><a href="{%url 'product_order' pk=product.pk %}">Order</a></button></td>
+                    <td><button type="button"><a href="{%url 'product_order_edit' pk=product.pk %}">Order</a></button></td>
                 </tr>
             {% endfor %}
             </table>
