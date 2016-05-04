@@ -20,24 +20,13 @@ urlpatterns = [
 	url(r'^product/delete/(?P<pk>\d+)/$', views.product_delete, name='product_delete'),
 	url(r'^category/$', views.category, name='category'),
 	url(r'^category/new/$', views.category_new, name='category_new'),
-
   url(r'^category/edit/(?P<pk>\d+)/$', views.category_edit, name='category_edit'),
   url(r'^category/delete/(?P<pk>\d+)/$', views.category_delete, name='category_delete'),
-
   url(r'^product_browse/$', views.product_browse, name='product_browse'),
   url(r'^product_browse/(?P<pk>\d+)/$', views.product_browse, name='product_browse'),
-
   url(r'^product/browse/search/$', views.product_browse_search, name='product_browse_search'),
-
-
   url(r'^product_order/(?P<pk>\d+)/$', views.product_order, name='product_order'),
-
-  #url(r'^product_order_edit/$', views.product_order_edit, name='product_order_edit'),
-
-
   url(r'^shopping_cart/$', views.shopping_cart, name='shopping_cart'),
-
-
-  
+  url(r'^confirmation/$', views.confirmation, name='confirmation'),
 ]
 

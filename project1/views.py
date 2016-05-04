@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.forms import modelformset_factory
 
 def homepage(request):
-	return render(request, 'project1/homepage.html',{'user':request.user.username})
+	return render(request, 'project1/homepage.html',{})
 
 def login(request):
    c = {} #dict
@@ -207,20 +207,8 @@ def product_order(request, pk=None):
    return render(request, 'project1/product_order.html', 
       {'name':name, 'price':price, 'form':form})
 
-
-def product_order_edit(request,pk):
-   if request.method == "POST": #Back with form data
-      form = ProductQuantityForm(request.POST) 
-      if form.is_valid():
-         form.save()
-         return redirect('product_browse')
-   else: #Access page 1st time => blank form
-      form = ProductQuantityForm()
-
-   return render(request,'project1/product_order_edit.html',{'form':form})
-
-
 def shopping_cart(request):
+
    productInCart = Order_shopping.objects.filter(is_bought=False).filter(customer=request.user.username)
    skuToName = []
    quantityToPrice = [] 
@@ -228,5 +216,7 @@ def shopping_cart(request):
       quantityToPrice.append(zip(product,skuToName.append(Product.objects.get(sku=product.oSku))))
    return render(request, 'project1/shopping_cart.html', {'quantityToPrice':quantityToPrice})
 
-   #{'productInCart':productInCart,'skuToName':skuToName})
+def confirmation(request):
+   return render(request, 'project1/confirmation.html', {})
+
    
