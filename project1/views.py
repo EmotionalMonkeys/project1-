@@ -43,7 +43,10 @@ def signup(request):
    return render(request, 'project1/signup.html', {'form':form})
 
 def product(request,pk=None, curCat='All'):
-   user = EMUser.objects.get(username=request.user.username)
+   try:
+      user = EMUser.objects.get(username=request.user.username)
+   except EMUser.DoesNotExist:
+      user = None
    if request.user.is_authenticated():
       if user.role == 'owner':
          if pk != None:
