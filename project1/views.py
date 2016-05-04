@@ -123,4 +123,14 @@ def product_browse(request, pk=None, pk2=None):
       products = Product.objects.order_by('name')
    categories = Category.objects.order_by('name')
    return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
+
+def product_order(request, pk=None):
+   if pk != None:
+      selectedProduct = get_object_or_404(Product, pk = pk)
+      #products = Product.objects.filter(selectedProduct)
+      return render(request, 'project1/product_order.html', {'selectedProduct':selectedProduct})
+   else:
+      products = Product.objects.order_by('name')
+      categories = Category.objects.order_by('name')
+      return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
    
