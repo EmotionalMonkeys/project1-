@@ -197,6 +197,7 @@ def product_order(request, pk=None):
       instance.oSku=product
       instance.is_bought=False
       instance.save()
+
       return redirect('product_browse')
    else: #Access page 1st time => blank form
       form = ProductQuantityForm()
@@ -225,7 +226,6 @@ def shopping_cart(request):
       finalAmount += k[2] * k[1]
 
    return render(request, 'project1/shopping_cart.html', {'final':final, 'finalAmount':finalAmount})
-
 
 def confirmation(request):
    return render(request, 'project1/confirmation.html', {})

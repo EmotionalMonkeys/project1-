@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 # User 
 class EMUser(models.Model):
    username = models.CharField(max_length=50,unique = True, primary_key=True)
@@ -98,7 +98,7 @@ class Product(models.Model):
 class Order_shopping(models.Model):
    customer = models.ForeignKey(EMUser,on_delete=models.CASCADE)
    oSku = models.ForeignKey(Product,on_delete=models.CASCADE)
-   quantity = models.IntegerField(validators=[MinValueValidator(0)])
+   quantity = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)])
    is_bought = models.BooleanField(default=False)
    def __str__(self):
       return '%s %s %s' % (self.oSku.name, self.oSku.sku,self.quantity)
