@@ -23,3 +23,8 @@ class OrderShoppingForm(forms.ModelForm):
 		fields = ('customer', 'oSku', 'quantity', 'is_bought')
 
 
+class ProductQuantityForm(forms.ModelForm):
+	class Meta:
+		model = Order_shopping
+		exclude = ['customer','oSku','is_bought']
+

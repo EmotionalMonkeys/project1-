@@ -3,9 +3,9 @@
 {% block content %}
    <h1>New Order</h1>
    </br>
-   <form action="/product_order/" method = "POST" class="order-form">{% csrf_token %}
-   		<label for="quantity"> Quantity </label>
-		<input type="number" name="quantity" >     
-     	<button type="submit" class="save btn btn-default">Save</button>
+
+   <form method = "POST" class="category-form">{% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="save btn btn-default">Save</button>
    </form>
 {% endblock %}

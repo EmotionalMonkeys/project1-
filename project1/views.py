@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
-from .forms import CategoryForm,UserForm,ProductForm
+from .forms import CategoryForm,UserForm,ProductForm, ProductQuantityForm
 from .models import EMUser,Product,Order_shopping,Category
 from django.contrib import messages, auth
 from django.http import HttpResponseRedirect
 from django.template.context_processors import csrf
 from django.contrib.auth.models import User
+from django.forms import modelformset_factory
 
 def homepage(request):
 	return render(request, 'project1/homepage.html',{'user':request.user.username})
@@ -186,50 +187,52 @@ def product_browse_search(request):
                  {'products':products,'allCategories':allCategories ,'curCat':curCat, 'searchItem':searchItem})
 
 def product_order(request, pk=None):
-   quantity = request.POST.get('quantity')
-   if quantity is not None:
-      quantity.save()
-   if pk != None:
-      selectedProduct = get_object_or_404(Product, pk = pk)
-      #products = Product.objects.filter(selectedProduct)
-      return render(request, 'project1/product_order.html', {'selectedProduct':selectedProduct})
-   else:
-      products = Product.objects.order_by('name')
-      categories = Category.objects.order_by('name')
-   return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
+   product = Product.objects.get(pk=pk)
+   user = EMUser.objects.get(username=request.user.username)
 
-def order_new(request):
    if request.method == "POST": #Back with form data
-      form = OrderShoppingForm(request.POST) 
+      form = ProductQuantityForm(request.POST) 
+      instance = form.save(commit=False)
+      instance.customer=user
+      instance.oSku=product
+      instance.is_bought=False
+      instance.save()
+      return redirect('product_browse')
+   else: #Access page 1st time => blank form
+      form = ProductQuantityForm()
+
+   product = Product.objects.get(pk=pk)
+   name = product.name
+   price = product.price
+   return render(request, 'project1/product_order.html', 
+      {'name':name, 'price':price, 'form':form})
+
+
+def product_order_edit(request,pk):
+   if request.method == "POST": #Back with form data
+      form = ProductQuantityForm(request.POST) 
       if form.is_valid():
          form.save()
          return redirect('product_browse')
    else: #Access page 1st time => blank form
-      form = OrderShoppingForm()
+      form = ProductQuantityForm()
 
    return render(request,'project1/product_order_edit.html',{'form':form})
 
-def product_order_edit(request,pk):
-   order = get_object_or_404(Order_shopping, pk=pk)
-
-   if request.method == "POST": #Back with form data
-      form = OrderShoppingForm(request.POST, instance=order) 
-      if form.is_valid():
-         form.save()
-         return redirect('product_browse')
-
-   else: #Access page 1st time => blank form
-      form = OrderShoppingForm(instance=category)
-
-   return render(request, 'project1/product_order_edit.html',{'form':form})
 
 def shopping_cart(request):
-   productInCart = Order_shopping.objects.filter(is_bought=False).filter(customer=request.user.username)
-   skuToName = []
-   quantityToPrice = [] 
-   for product in productInCart: 
-      quantityToPrice.append(zip(product,skuToName.append(Product.objects.get(sku=product.oSku))))
-   return render(request, 'project1/shopping_cart.html', {'quantityToPrice':quantityToPrice})
+   productInCart = Order_shopping.objects.filter(customer=request.user.username).filter(is_bought=False)
+   name = []
+   quantity = []
+   price = [] 
+   final = []
+   for itemQuantity in productInCart: 
+      name.append(Product.objects.get(sku=itemQuantity.oSku.sku).name)
+      price.append(Product.objects.get(sku=itemQuantity.oSku.sku).price)
+      quantity.append(itemQuantity.quantity)
+   final = zip(name,price,quantity)
+   finalAmount = 0
+   for k in final: 
+      finalAmount += k[2] * k[1]
 
-   #{'productInCart':productInCart,'skuToName':skuToName})
-   
+   return render(request, 'project1/shopping_cart.html', {'final':final, 'finalAmount':finalAmount})

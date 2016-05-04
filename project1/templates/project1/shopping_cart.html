@@ -3,23 +3,28 @@
 {% block content %}
 	<h1><b>Shopping Cart</b></h1>
 
-	{% for p in quantityToPrice %}
+	{% for k in final %}
    <li>
       <div>
          <p>Name: </p> 
-            <div>{{p.0.name}} </div>
-         </br>
-         <p>Quantity </p>
-            <div> $ {{p.1.quantity}} </div>
+            <div>{{k.0}} </div>
          </br>
          <p>Price: </p>
-            <div>{{p.0.price}}</div>
+            <div>{{k.1}}</div>
+         </br>
+         <p>Quantity </p>
+            <div>{{k.2}} </div>
          </br>
          
-      </div>
+         
+      
+      </li>
    </li>
    <hr>
    {% endfor %} 
-
+   </div>
+      <p> Total Amount </p>
+         <div>$ {{finalAmount}} 
+   </div>
 
 {% endblock %}

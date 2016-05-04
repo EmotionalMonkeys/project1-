@@ -34,10 +34,10 @@ urlpatterns = [
 
 	url(r'^product_order_edit/$', views.product_order_edit, name='product_order_edit'),
 
+
 	url(r'^shopping_cart/$', views.shopping_cart, name='shopping_cart'),
 
-  #url(r'^shopping_cart/$', views.shopping_cart, name='shopping_cart')
 
-  #url(r'^signup/sucess/$', views.signupSucess, name='signupSucess'),
+  
 ]
 

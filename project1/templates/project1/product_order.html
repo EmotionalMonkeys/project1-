@@ -15,12 +15,18 @@
     	</button>
     </div>
     <div>
-        <p>You are getting  <u>{{selectedProduct.name}}</u></p>
-        <form method="POST" class="orderShoppingForm" >
-        {% csrf_token %}
-            {{ form.as_p }}
-            <input type="number" name="quantity" min="0">
-            <button type="submit"> Submit </button>
-        </form>
+
+        <p>Ordering</p>
+        <table style="width:550px">
+            <tr>
+                <td>Name {{name}}</td>
+              
+                <td>Price {{price}}</td>
+            </tr>
     </div>
+    <form method = "POST">{% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="save btn btn-default">Save</button>
+   </form>
+    
 {% endblock %}
