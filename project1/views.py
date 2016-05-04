@@ -43,7 +43,10 @@ def signup(request):
    return render(request, 'project1/signup.html', {'form':form})
 
 def product(request,pk=None, curCat='All'):
-   user = EMUser.objects.get(username=request.user.username)
+   try:
+      user = EMUser.objects.get(username=request.user.username)
+   except EMUser.DoesNotExist:
+      user = None
    if request.user.is_authenticated():
       if user.role == 'owner':
          if pk != None:
@@ -171,4 +174,14 @@ def product_browse(request, pk=None, pk2=None):
       products = Product.objects.order_by('name')
    categories = Category.objects.order_by('name')
    return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
-   
+
+
+def shopping_cart(request):
+   productInCart = Order_shopping.objects.filter(is_bought=False).filter(customer=request.user.username)
+   skuToName = []
+   quantityToPrice = [] 
+   for product in productInCart: 
+      quantityToPrice.append(zip(product,skuToName.append(Product.objects.get(sku=product.oSku))))
+   return render(request, 'project1/shopping_cart.html', {'quantityToPrice':quantityToPrice})
+
+   #{'productInCart':productInCart,'skuToName':skuToName})

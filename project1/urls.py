@@ -26,4 +26,6 @@ urlpatterns = [
   	
   url(r'^product_browse/$', views.product_browse, name='product_browse'),
   url(r'^product_browse/(?P<pk>\d+)/$', views.product_browse, name='product_browse'),
+  url(r'^shopping_cart/$', views.shopping_cart, name='shopping_cart')
+
 ]

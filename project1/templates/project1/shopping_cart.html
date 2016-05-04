@@ -1,0 +1,25 @@
+{% extends 'project1/base.html' %}
+
+{% block content %}
+	<h1><b>Shopping Cart</b></h1>
+
+	{% for p in quantityToPrice %}
+   <li>
+      <div>
+         <p>Name: </p> 
+            <div>{{p.0.name}} </div>
+         </br>
+         <p>Quantity </p>
+            <div> $ {{p.1.quantity}} </div>
+         </br>
+         <p>Price: </p>
+            <div>{{p.0.price}}</div>
+         </br>
+         
+      </div>
+   </li>
+   <hr>
+   {% endfor %} 
+
+
+{% endblock %}
