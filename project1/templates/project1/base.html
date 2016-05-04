@@ -11,9 +11,11 @@
 
    <body> 
       <div class = "page-header">
-         <h1><button type="button"><a href="/">Emotional Monkeys</a></button></h1>
+         <h1>Emotional Monkeys</h1>
          <img src="http://ichef-1.bbci.co.uk/news/660/cpsprodpb/025B/production/_85730600_monkey2.jpg" alt="Logo" style="width:150px;height:150px">
          </br>
+         
+         <button type="button"><a href="/">Home Page</a></button>
          {% if user.is_authenticated %} 
             <button type="button">
                <a href="/shopping_cart">Buy Shopping Cart</a>

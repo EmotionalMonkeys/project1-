@@ -99,7 +99,7 @@ class Product(models.Model):
 class Order_shopping(models.Model):
    customer = models.ForeignKey(EMUser,on_delete=models.CASCADE)
    oSku = models.ForeignKey(Product,on_delete=models.CASCADE)
-   quantity = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)])
+   quantity = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000000)])
    is_bought = models.BooleanField(default=False)
    purchased_time = models.DateTimeField(blank = True, null=True)
    def __str__(self):
