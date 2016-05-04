@@ -42,7 +42,7 @@ def signup(request):
 
    return render(request, 'project1/signup.html', {'form':form})
 
-def product(request,pk=None, curCat='All'):
+def product(request, pk=None, curCat='All'):
    try:
       user = EMUser.objects.get(username=request.user.username)
    except EMUser.DoesNotExist:
@@ -163,14 +163,14 @@ def category_delete(request,pk):
    messages.success(request, "Successfully deleted")
    return redirect('category')
 
-def product_browse(request, pk=None):
+def product_browse(request, pk=None, curCat='All'):
    if pk != None:
       selectedCategory = get_object_or_404(Category, pk=pk)
       products = Product.objects.filter(category_id=selectedCategory)
    else:
       products = Product.objects.order_by('name')
-   categories = Category.objects.order_by('name')
-   return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
+   allCategories = Category.objects.order_by('name')
+   return render(request, 'project1/product_browse.html', {'curCat':curCat, 'products':products, 'allCategories':allCategories})
 
 
 def product_browse_search(request):
@@ -183,7 +183,7 @@ def product_browse_search(request):
       products = Product.objects.filter(name__contains=searchItem)
    allCategories = Category.objects.order_by('name')
    return render(request, 'project1/product_browse.html', 
-                 {'products':products,'allCategories':allCategories , 'curCat':curCat, 'searchItem':searchItem})
+                 {'products':products,'allCategories':allCategories ,'curCat':curCat, 'searchItem':searchItem})
 
 def product_order(request, pk=None):
    quantity = request.POST.get('quantity')
@@ -196,7 +196,7 @@ def product_order(request, pk=None):
    else:
       products = Product.objects.order_by('name')
       categories = Category.objects.order_by('name')
-      return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
+   return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
 
 def order_new(request):
    if request.method == "POST": #Back with form data
