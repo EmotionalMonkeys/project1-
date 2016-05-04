@@ -22,3 +22,4 @@ class OrderShoppingForm(forms.ModelForm):
 		model = Order_shopping
 		fields = ('customer', 'oSku', 'quantity', 'is_bought')
 
+

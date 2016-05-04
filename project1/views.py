@@ -3,7 +3,7 @@ from .forms import CategoryForm,UserForm,ProductForm
 from .models import EMUser,Product,Order_shopping,Category
 from django.contrib import messages, auth
 from django.http import HttpResponseRedirect
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 
 def homepage(request):

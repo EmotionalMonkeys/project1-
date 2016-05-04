@@ -15,11 +15,12 @@
     	</button>
     </div>
     <div>
-        <p>Ordering <u>{{selectedProduct.name}}</u></p>
-        <form action="{% url 'product_order_edit' %}">
-          Enter Quantity to buy
-          <input type="number" name="quantity" min="0">
-          <input type="submit">
+        <p>You are getting  <u>{{selectedProduct.name}}</u></p>
+        <form method="POST" class="orderShoppingForm" >
+        {% csrf_token %}
+            {{ form.as_p }}
+            <input type="number" name="quantity" min="0">
+            <button type="submit"> Submit </button>
         </form>
     </div>
 {% endblock %}
