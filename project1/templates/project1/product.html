@@ -1,7 +1,9 @@
 {% extends 'project1/base.html' %}
 
 {% block content %}
-
+   {% if user.is_authenticated %} 
+      <h2>Hi {{user}}</h2>
+   {% endif %}
    <h1><b>Product</b></h1>
 
    <div class="container-fluid">
