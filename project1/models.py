@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 # User 
 class EMUser(models.Model):
    username = models.CharField(max_length=50,unique = True, primary_key=True)
@@ -100,8 +101,14 @@ class Order_shopping(models.Model):
    oSku = models.ForeignKey(Product,on_delete=models.CASCADE)
    quantity = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10000)])
    is_bought = models.BooleanField(default=False)
+   purchased_time = models.DateTimeField(blank = True, null=True)
    def __str__(self):
       return '%s %s %s' % (self.oSku.name, self.oSku.sku,self.quantity)
+
+   def bought(self):
+      self.purchased_time = timezone.now()
+      self.save()
+
 
 
 

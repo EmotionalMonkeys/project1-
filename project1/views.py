@@ -227,6 +227,23 @@ def shopping_cart(request):
 
    return render(request, 'project1/shopping_cart.html', {'final':final, 'finalAmount':finalAmount})
 
-def confirmation(request):
-   return render(request, 'project1/confirmation.html', {})
+def confirmation(request):  
+   purchased = Order_shopping.objects.filter(customer=request.user.username).filter(is_bought=False)
+   name = []
+   quantity = []
+   price = [] 
+   final = []
+   for item in purchased:
+      item.is_bought = True
+      item.bought()
+      item.save()
+      name.append(Product.objects.get(sku=item.oSku.sku).name)
+      price.append(Product.objects.get(sku=item.oSku.sku).price)
+      quantity.append(item.quantity)
+   final = zip(name,price,quantity)
+   finalAmount = 0
+   for k in final: 
+      finalAmount += k[2] * k[1]
+
+   return render(request, 'project1/confirmation.html', {'final':final, 'finalAmount':finalAmount})
 

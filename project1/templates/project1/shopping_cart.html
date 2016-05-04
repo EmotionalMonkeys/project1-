@@ -24,9 +24,10 @@
          <div>$ {{finalAmount}} 
    </div>
 
+   <form method="POST">
    <button type="button">
-      <input type="text" maxlength="16" placeholder="Credit number" required="True" size="16" pattern="[0-9]+">
-      <a href="/Confirmation/">Purchase</a>
+      <input type="text" maxlength="16" placeholder="Credit number"  size="16" pattern="[0-9]+" required>
+      <a href="/confirmation/">Purchase</a>
    </button>
-
+   </form>
 {% endblock %}

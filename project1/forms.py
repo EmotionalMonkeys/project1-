@@ -26,5 +26,5 @@ class OrderShoppingForm(forms.ModelForm):
 class ProductQuantityForm(forms.ModelForm):
 	class Meta:
 		model = Order_shopping
-		exclude = ['customer','oSku','is_bought']
+		exclude = ['customer','oSku','is_bought','purchased_time']
 
