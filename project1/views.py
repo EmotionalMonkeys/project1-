@@ -1,31 +1,16 @@
-from django.shortcuts import render, redirect, get_object_or_404, render_to_response
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CategoryForm,UserForm,ProductForm
 from .models import EMUser,Product,Order_shopping,Category
-from django.contrib import messages, auth
-from django.http import HttpResponseRedirect
-from django.core.context_processors import csrf
-from django.contrib.auth.models import User
+from django.contrib import messages
 
 def homepage(request):
-	return render(request, 'project1/homepage.html',{'user':request.user.username})
+   #curr_user = User.objects.filter(username = )
+	return render(request, 'project1/homepage.html',{})
 
-def login(request):
-   c = {} #dict
-   c.update(csrf(request))
-   return render_to_response('project1/login.html',c)
+def signupSuccess(request):
+   return render(request, 'project1/signupSuccess.html',{})
 
-def auth_view(request):
-   #If username is empty, fill username with ''
-   username = request.POST.get('username')
-   user = auth.authenticate(username=username, password = '')
-   if user is not None and user.is_active:
-      auth.login(request,user)
-      return render(request, 'project1/homepage.html',{'user':request.user.username})
-   else:
-      return render(request, 'project1/login.html',
-         {'message1':"The provided name ", 'user':username, 'message2':" is not known."})
-
-def signup(request):
+def user(request):
    # if this is a POST request we need to process the form data
    if request.method == 'POST':
       # create a form instance and populate it with data from the request:
@@ -33,34 +18,22 @@ def signup(request):
       # check whether it's valid:
       if form.is_valid():
          form.save()
-         user = User.objects.create_user(username=request.POST.get('username'))
-         user.set_password('')
-         user.save()
          return redirect('homepage')
    else:
       form = UserForm()
 
    return render(request, 'project1/signup.html', {'form':form})
 
-def product(request,pk=None, curCat='All'):
-   user = EMUser.objects.get(username=request.user.username)
-   if request.user.is_authenticated():
-      if user.role == 'owner':
-         if pk != None:
-            selectedCategory = get_object_or_404(Category, pk=pk)
-            curCat = selectedCategory.name
-            products = Product.objects.filter(category_id=selectedCategory)
-         else:
-            products = Product.objects.order_by('name')
-         allCategories = Category.objects.order_by('name')
-
-         return render(request, 'project1/product.html', 
-            {'products':products,'allCategories':allCategories,'curCat':curCat})
-      else:
-         return render(request,'project1/homepage.html',
-            {'error':"This page is available to owners only"})
+def product(request, pk=None, curCat='All'):
+   if pk != None:
+      selectedCategory = get_object_or_404(Category, pk=pk)
+      curCat = selectedCategory.name
+      products = Product.objects.filter(category_id=selectedCategory)
    else:
-      return render(request,'project1/homepage.html',{'error':"No user logged in"})
+      products = Product.objects.order_by('name')
+   allCategories = Category.objects.order_by('name')
+   return render(request, 'project1/product.html', 
+                 {'products':products,'allCategories':allCategories, 'curCat':curCat})
 
 def product_search(request):
    searchItem = request.GET['item']
@@ -113,16 +86,8 @@ def product_delete(request,pk):
 
 
 def category(request):
-   user = EMUser.objects.get(username=request.user.username)
-   if request.user.is_authenticated():
-      if user.role == 'owner':
-         categories = Category.objects.order_by('name')
-         return render(request,'project1/category.html',{'categories':categories})
-      else:
-         return render(request,'project1/homepage.html',
-            {'error':"This page is available to owners only"})
-   else:
-      return render(request,'project1/homepage.html',{'error':"No user logged in"})
+   categories = Category.objects.order_by('name')
+   return render(request,'project1/category.html',{'categories':categories})
 
 def categoryAccessError(request):
    messages.error(request, 'Cannot aceess.')

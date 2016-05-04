@@ -5,10 +5,10 @@ from . import views
 urlpatterns = [
 
 	url(r'^$', views.homepage, name='homepage'),
-  url(r'^signup/$', views.signup, name='signup'),
+	url(r'^signup/$', views.signup, name='signup'),
 
-  url(r'^login/$', views.login, name='login'),
-  url(r'^auth/$', views.auth_view, name='auth'),
+	url(r'^login/$', views.login, name='login'),
+	url(r'^auth/$', views.auth_view, name='auth'),
 
 	url(r'^product/$', views.product, name='product'),
 	url(r'^product/(?P<pk>\d+)/$', views.product, name='product'),
@@ -28,7 +28,11 @@ urlpatterns = [
   url(r'^product_browse/(?P<pk>\d+)/$', views.product_browse, name='product_browse'),
 
   url(r'^product_order/(?P<pk>\d+)/$', views.product_order, name='product_order'),
+
+  url(r'^shopping_cart/$', views.shopping_cart, name='shopping_cart')
+
+  #url(r'^signup/sucess/$', views.signupSucess, name='signupSucess'),
 ]
 
- #url(r'^signup/sucess/$', views.signupSucess, name='signupSucess'),
+ 
 
