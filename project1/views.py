@@ -117,7 +117,11 @@ def product_delete(request,pk):
 
 
 def category(request):
-   user = EMUser.objects.get(username=request.user.username)
+   try:
+      user = EMUser.objects.get(username=request.user.username)
+   except EMUser.DoesNotExist:
+      user = None
+
    if request.user.is_authenticated():
       if user.role == 'owner':
          categories = Category.objects.order_by('name')
@@ -127,10 +131,6 @@ def category(request):
             {'error':"This page is available to owners only"})
    else:
       return render(request,'project1/homepage.html',{'error':"No user logged in"})
-
-def categoryAccessError(request):
-   messages.error(request, 'Cannot aceess.')
-   return redirect('homepage')
 
 
 def category_new(request):
@@ -165,14 +165,17 @@ def category_delete(request,pk):
    return redirect('category')
 
 def product_browse(request, pk=None, curCat='All'):
-   if pk != None:
-      selectedCategory = get_object_or_404(Category, pk=pk)
-      products = Product.objects.filter(category_id=selectedCategory)
+   if request.user.is_authenticated():
+      if pk != None:
+         selectedCategory = get_object_or_404(Category, pk=pk)
+         products = Product.objects.filter(category_id=selectedCategory)
+      else:
+         products = Product.objects.order_by('name')
+      allCategories = Category.objects.order_by('name')
+      return render(request, 'project1/product_browse.html', 
+         {'curCat':curCat, 'products':products, 'allCategories':allCategories})
    else:
-      products = Product.objects.order_by('name')
-   allCategories = Category.objects.order_by('name')
-   return render(request, 'project1/product_browse.html', {'curCat':curCat, 'products':products, 'allCategories':allCategories})
-
+      return render(request,'project1/homepage.html',{'error':"No user logged in"})
 
 def product_browse_search(request):
    searchItem = request.GET['item']
@@ -210,23 +213,24 @@ def product_order(request, pk=None):
 
 
 def shopping_cart(request):
+   if request.user.is_authenticated():
+      productInCart = Order_shopping.objects.filter(customer=request.user.username).filter(is_bought=False)
+      name = []
+      quantity = []
+      price = [] 
+      final = []
+      for itemQuantity in productInCart: 
+         name.append(Product.objects.get(sku=itemQuantity.oSku.sku).name)
+         price.append(Product.objects.get(sku=itemQuantity.oSku.sku).price)
+         quantity.append(itemQuantity.quantity)
+      final = zip(name,price,quantity)
+      finalAmount = 0
+      for k in final: 
+         finalAmount += k[2] * k[1]
+      return render(request, 'project1/shopping_cart.html', {'final':final, 'finalAmount':finalAmount})
+   else:
+      return render(request,'project1/homepage.html',{'error':"No user logged in"})
 
-   productInCart = Order_shopping.objects.filter(customer=request.user.username).filter(is_bought=False)
-   name = []
-   quantity = []
-   price = [] 
-   final = []
-   for itemQuantity in productInCart: 
-      name.append(Product.objects.get(sku=itemQuantity.oSku.sku).name)
-      price.append(Product.objects.get(sku=itemQuantity.oSku.sku).price)
-      quantity.append(itemQuantity.quantity)
-   final = zip(name,price,quantity)
-   finalAmount = 0
-   for k in final: 
-      finalAmount += k[2] * k[1]
-
-   return render(request, 'project1/shopping_cart.html', {'final':final, 'finalAmount':finalAmount})
-
-def confirmation(request):
+def confirmation(request,pk):
    return render(request, 'project1/confirmation.html', {})
 
