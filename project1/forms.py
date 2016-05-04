@@ -17,4 +17,8 @@ class ProductForm(forms.ModelForm):
 		model = Product
 		fields = ('name', 'sku', 'price', 'category')
 
+class OrderShoppingForm(forms.ModelForm):
+	class Meta:
+		model = Order_shopping
+		fields = ('customer', 'oSku', 'quantity', 'is_bought')
 

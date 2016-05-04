@@ -15,8 +15,9 @@
     	</button>
     </div>
     <div>
+        <p>Ordering <u>{{selectedProduct.name}}</u></p>
         <form action="{% url 'product_browse' %}">
-          Enter Quantity for {{selectedProduct.name}}
+          Enter Quantity to buy
           <input type="number" name="quantity" min="0">
           <input type="submit">
         </form>
