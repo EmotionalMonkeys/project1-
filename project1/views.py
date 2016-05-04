@@ -163,18 +163,65 @@ def category_delete(request,pk):
    messages.success(request, "Successfully deleted")
    return redirect('category')
 
-def product_browse(request, pk=None, pk2=None):
+def product_browse(request, pk=None):
    if pk != None:
       selectedCategory = get_object_or_404(Category, pk=pk)
       products = Product.objects.filter(category_id=selectedCategory)
-   elif pk2 != None:
-      selectedProduct = get_object_or_404(Product, pk2 = pk2)
-      products = Product.objects.filter(product_id=selectedProduct)
    else:
       products = Product.objects.order_by('name')
    categories = Category.objects.order_by('name')
    return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
 
+
+def product_browse_search(request):
+   searchItem = request.GET['item']
+   curCat = request.GET['curCat']
+   selCat = Category.objects.filter(name=curCat)
+   if curCat != 'All':
+      products = Product.objects.filter(name__contains=searchItem).filter(category=selCat)
+   else:
+      products = Product.objects.filter(name__contains=searchItem)
+   allCategories = Category.objects.order_by('name')
+   return render(request, 'project1/product_browse.html', 
+                 {'products':products,'allCategories':allCategories , 'curCat':curCat, 'searchItem':searchItem})
+
+def product_order(request, pk=None):
+   quantity = request.POST.get('quantity')
+   if quantity is not None:
+      quantity.save()
+   if pk != None:
+      selectedProduct = get_object_or_404(Product, pk = pk)
+      #products = Product.objects.filter(selectedProduct)
+      return render(request, 'project1/product_order.html', {'selectedProduct':selectedProduct})
+   else:
+      products = Product.objects.order_by('name')
+      categories = Category.objects.order_by('name')
+      return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
+
+def order_new(request):
+   if request.method == "POST": #Back with form data
+      form = OrderShoppingForm(request.POST) 
+      if form.is_valid():
+         form.save()
+         return redirect('product_browse')
+   else: #Access page 1st time => blank form
+      form = OrderShoppingForm()
+
+   return render(request,'project1/product_order_edit.html',{'form':form})
+
+def product_order_edit(request,pk):
+   order = get_object_or_404(Order_shopping, pk=pk)
+
+   if request.method == "POST": #Back with form data
+      form = OrderShoppingForm(request.POST, instance=order) 
+      if form.is_valid():
+         form.save()
+         return redirect('product_browse')
+
+   else: #Access page 1st time => blank form
+      form = OrderShoppingForm(instance=category)
+
+   return render(request, 'project1/product_order_edit.html',{'form':form})
 
 def shopping_cart(request):
    productInCart = Order_shopping.objects.filter(is_bought=False).filter(customer=request.user.username)
@@ -185,3 +232,4 @@ def shopping_cart(request):
    return render(request, 'project1/shopping_cart.html', {'quantityToPrice':quantityToPrice})
 
    #{'productInCart':productInCart,'skuToName':skuToName})
+   

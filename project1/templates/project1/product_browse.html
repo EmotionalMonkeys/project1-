@@ -1,39 +1,25 @@
+{% extends 'project1/base.html' %}
+
+{% block extra_head %}
 {% load staticfiles %}
-<html>
-   <head>
-      <title>Emotional Monkeys</title> 
-      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-      <link rel="stylesheet"href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-      <link rel="stylesheet" href="{% static 'css/product_browse.css' %}"> 
-     
-      <link rel="stylesheet" href="{% static 'css/project1.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/product_browse.css' %}"> 
+{% endblock %}
 
-   </head>
-
-   <body> 
-      <div class = "page-header">
-         <h1><button type="button"><a href="/">Emotional Monkeys</a></button></h1>
-         <img src="http://ichef-1.bbci.co.uk/news/660/cpsprodpb/025B/production/_85730600_monkey2.jpg" alt="Logo" style="width:150px;height:150px">
-      </div>
-      {% if user.is_authenticated %} 
-        <h2>Hi {{user}}</h2>
-      {% endif %}
-
-      <div class = "content-container">
-         <div class = "row">
-            <div class = "col-md-8">
-
+{% block content %} 
     <h1 id="top">Product Browse Page</h1>
     </br>
     <div>
-    	<button type="button">
-    		<a href="/">Home Page</a>
-    	</button>
+        <button type="button">
+            <a href="/">Home Page</a>
+        </button>
     </div>
     <div>
-    	<form action="{%url 'product_browse' %}" method="get">
-            <input type="text" name="q" placeholder="Search">
-        </form>
+    	<form action="/product/browse/search/" method="get">
+               <input class="search" type="text" placeholder="Search" name="item" value={{searchItem}}>
+               <br>
+               <input type="hidden" type="text" name="curCat" value={{curCat}} >
+               <input type="submit" value="Search">
+            </form> 
     </div>
         <div>
             <h3>Categories:</h3>
@@ -61,7 +47,7 @@
                     <td>{{product.sku}}</td>
                     <td>${{product.price}}</td>
                     <td>{{product.category}}</td>
-                    <td><button type="button"><a href="\product_order">Order</a></button></td>
+                    <td><button type="button"><a href="{%url 'product_order' pk=product.pk %}">Order</a></button></td>
                 </tr>
             {% endfor %}
             </table>
@@ -69,5 +55,4 @@
             </div>
          </div>
       </div>
-   </body>
-</html>
+{% endblock %}      

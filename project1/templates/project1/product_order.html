@@ -1,0 +1,25 @@
+{% extends 'project1/base.html' %}
+
+
+{% block extra_head %}
+{% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/product_browse.css' %}"> 
+{% endblock %}
+
+{% block content %} 
+    <h1 id="top">Product Order Page</h1>
+    </br>
+    <div>
+    	<button type="button">
+    		<a href="/product_browse">Back to Browse</a>
+    	</button>
+    </div>
+    <div>
+        <p>Ordering <u>{{selectedProduct.name}}</u></p>
+        <form action="{% url 'product_order_edit' %}">
+          Enter Quantity to buy
+          <input type="number" name="quantity" min="0">
+          <input type="submit">
+        </form>
+    </div>
+{% endblock %}
