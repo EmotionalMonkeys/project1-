@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
-from .forms import CategoryForm,UserForm,ProductForm
+from .forms import CategoryForm,UserForm,ProductForm, ProductQuantityForm
 from .models import EMUser,Product,Order_shopping,Category
 from django.contrib import messages, auth
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
+from django.forms import modelformset_factory
 
 def homepage(request):
 	return render(request, 'project1/homepage.html',{'user':request.user.username})
@@ -186,42 +187,37 @@ def product_browse_search(request):
                  {'products':products,'allCategories':allCategories , 'curCat':curCat, 'searchItem':searchItem})
 
 def product_order(request, pk=None):
-   quantity = request.POST.get('quantity')
-   if quantity is not None:
-      quantity.save()
-   if pk != None:
-      selectedProduct = get_object_or_404(Product, pk = pk)
-      #products = Product.objects.filter(selectedProduct)
-      return render(request, 'project1/product_order.html', {'selectedProduct':selectedProduct})
-   else:
-      products = Product.objects.order_by('name')
-      categories = Category.objects.order_by('name')
-      return render(request, 'project1/product_browse.html', {'products':products, 'categories':categories})
+   product = Product.objects.get(pk=pk)
+   user = EMUser.objects.get(username=request.user.username)
 
-def order_new(request):
    if request.method == "POST": #Back with form data
-      form = OrderShoppingForm(request.POST) 
+      form = ProductQuantityForm(request.POST) 
+      instance = form.save(commit=False)
+      instance.customer=user
+      instance.oSku=product
+      instance.is_bought=False
+      instance.save()
+      return redirect('product_browse')
+   else: #Access page 1st time => blank form
+      form = ProductQuantityForm()
+
+   product = Product.objects.get(pk=pk)
+   name = product.name
+   price = product.price
+   return render(request, 'project1/product_order.html', 
+      {'name':name, 'price':price, 'form':form})
+
+'''def product_order_edit(request,pk):
+   if request.method == "POST": #Back with form data
+      form = ProductQuantityForm(request.POST) 
       if form.is_valid():
          form.save()
          return redirect('product_browse')
    else: #Access page 1st time => blank form
-      form = OrderShoppingForm()
+      form = ProductQuantityForm()
 
-   return render(request,'project1/product_order_edit.html',{'form':form})
+   return render(request,'project1/product_order_edit.html',{'form':form})'''
 
-def product_order_edit(request,pk):
-   order = get_object_or_404(Order_shopping, pk=pk)
-
-   if request.method == "POST": #Back with form data
-      form = OrderShoppingForm(request.POST, instance=order) 
-      if form.is_valid():
-         form.save()
-         return redirect('product_browse')
-
-   else: #Access page 1st time => blank form
-      form = OrderShoppingForm(instance=category)
-
-   return render(request, 'project1/product_order_edit.html',{'form':form})
 
 def shopping_cart(request):
    productInCart = Order_shopping.objects.filter(is_bought=False).filter(customer=request.user.username)
